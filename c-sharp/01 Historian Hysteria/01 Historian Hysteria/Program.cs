@@ -3,9 +3,9 @@
 Console.WriteLine("Hello, World!");
 
 var input = File.ReadAllText("input.txt");
-var tuples = (from line in input.Split('\n') 
-        where !string.IsNullOrWhiteSpace(line)
-        select ToIntTuple(line)).ToList();
+var tuples = (from line in input.Split('\n')
+    where !string.IsNullOrWhiteSpace(line)
+    select ToIntTuple(line)).ToList();
 
 Console.WriteLine($"Part 1: {Part1(tuples)}");
 Console.WriteLine($"Part 2: {Part2(tuples)}");
@@ -21,8 +21,12 @@ return;
 
 int Part1(List<(int, int)> items)
 {
-    var left = from tuple in items orderby tuple.Item1 select tuple.Item1;
-    var right = from tuple in items orderby tuple.Item2 select tuple.Item2;
+    var left = from tuple in items
+        orderby tuple.Item1
+        select tuple.Item1;
+    var right = from tuple in items
+        orderby tuple.Item2
+        select tuple.Item2;
     return left.Zip(right).Select(row => Math.Abs(row.First - row.Second)).Sum();
 }
 
