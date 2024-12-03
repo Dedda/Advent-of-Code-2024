@@ -48,16 +48,15 @@ fn part_1(input: &Vec<Vec<Instruction>>) -> usize {
 }
 
 fn part_2(input: &Vec<Vec<Instruction>>) -> usize {
-    let mut enabled = true;
-    let mut sum: usize = 0;
-    for instruction in input.iter().flatten() {
-        match instruction {
-            Mul(a, b) => if enabled { sum += a * b },
-            Do => enabled = true,
-            Dont => enabled = false,
-        }
-    }
-    sum
+    input.iter()
+        .flatten()
+        .fold((true, 0), |(enabled, sum), instruction| {
+            match instruction {
+                Mul(a, b) => if enabled { (enabled, sum + a*b) } else { (enabled, sum) },
+                Do => (true, sum),
+                Dont => (false, sum),
+            }
+    }).1
 }
 
 #[cfg(test)]
